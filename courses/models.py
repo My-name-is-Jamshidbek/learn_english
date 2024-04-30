@@ -1,5 +1,6 @@
 # models.py
 from django.db import models
+from accounts.models import User  # Import the correct model
 
 
 class Course(models.Model):
@@ -16,9 +17,10 @@ class Course(models.Model):
     class Meta:
         ordering = ['course_id']
 
+
 class Lesson(models.Model):
     lesson_id = models.AutoField(primary_key=True)
-    created_by = models.ForeignKey('StaffProfile', on_delete=models.CASCADE, related_name='lessons')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lessons')  # Direct reference
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
     lesson_title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)

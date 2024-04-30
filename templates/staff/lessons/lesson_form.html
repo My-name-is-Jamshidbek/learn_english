@@ -1,0 +1,57 @@
+{% extends 'guest/base.html' %}
+
+{% block title %}
+{% if form.instance.pk %}Edit Lesson{% else %}New Lesson{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{% if form.instance.pk %}Edit Lesson{% else %}New Lesson{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+{% comment %}
+        <div class="mb-3">
+            <label for="course" class="form-label">Course</label>
+            <select class="form-control" id="course" name="course">
+                {% for course in form.course.field.queryset %}
+                    <option value="{{ course.pk }}" {% if form.course.value == course.pk %}selected{% endif %}>
+                        {{ course.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            {% if form.course.errors %}
+                <div class="alert alert-danger mt-1">{{ form.course.errors }}</div>
+            {% endif %}
+        </div>
+
+{% endcomment %}
+        <div class="mb-3">
+            <label for="lesson_title" class="form-label">Lesson Title</label>
+            <input type="text" class="form-control" id="lesson_title" name="lesson_title" value="{{ form.lesson_title.value }}">
+            {% if form.lesson_title.errors %}
+                <div class="alert alert-danger mt-1">{{ form.lesson_title.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control" id="content" name="content">{{ form.content.value }}</textarea>
+            {% if form.content.errors %}
+                <div class="alert alert-danger mt-1">{{ form.content.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="score" class="form-label">Score</label>
+            <input type="number" class="form-control" id="score" name="score" value="{{ form.score.value }}">
+            {% if form.score.errors %}
+                <div class="alert alert-danger mt-1">{{ form.score.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'lesson_list' course.pk%}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

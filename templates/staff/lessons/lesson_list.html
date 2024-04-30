@@ -1,0 +1,69 @@
+{% extends 'guest/base.html' %}
+{% load static %}
+
+{% block title %}
+    Lessons for {{ course.name }}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Lessons Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Lessons for {{ course.name }}</h6>
+            <a href="{% url 'lesson_create' course.pk %}" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Create New Lesson</span>
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Score</th>
+                            <th>
+                                <div class="d-flex justify-content-center">
+                                    Changes
+                                </div>
+                            </th>
+                        </thead>
+                        <tbody>
+                            {% for lesson in lessons %}
+                                <tr>
+                                    <td><a href="{% url 'lesson_detail' lesson.lesson_id %}">{{ lesson.lesson_title }}</a></td>
+                                    <td>{{ lesson.content }}</td>
+                                    <td>{{ lesson.score }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <a href="{% url 'lesson_update' lesson.lesson_id %}" class="btn btn-warning btn-icon-split m-1">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-edit"></i>
+                                                </span>
+                                                <span class="text">Edit</span>
+                                            </a>
+                                            <a href="{% url 'lesson_delete' lesson.lesson_id %}" class="btn btn-danger btn-icon-split m-1">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span class="text">Delete</span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="4">No lessons available for this course.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
