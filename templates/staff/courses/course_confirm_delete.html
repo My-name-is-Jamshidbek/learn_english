@@ -1,0 +1,17 @@
+{% extends 'guest/base.html' %}
+
+{% block title %}
+    Confirm Delete Course
+{% endblock %}
+    
+{% block content %}
+    <h1>Are you sure you want to delete Course {{ course.name }}?</h1>
+    <p>{{ course.description }}</p>
+    <div class="mt-4 d-flex justify-content-center">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger m-2">Delete</button>
+        </form>
+        <a href="{% url 'course_list' %}" class="btn btn-secondary m-2">Cancel</a>
+    </div>
+{% endblock %}
