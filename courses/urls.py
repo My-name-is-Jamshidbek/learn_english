@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import course_create, course_list, course_update, course_delete
 from .lesson_views import lesson_detail, lesson_create, lesson_update, lesson_delete, lesson_list
+from .comment_views import comment_create, comment_delete
+
 
 urlpatterns = [
     path('lessons/<int:lesson_id>/', lesson_detail, name='lesson_detail'),
@@ -13,4 +15,7 @@ urlpatterns = [
     path('create/', course_create, name='course_create'),
     path('<int:course_id>/edit/', course_update, name='course_update'),
     path('<int:course_id>/delete/', course_delete, name='course_delete'),
+
+    path('lessons/<int:lesson_id>/comments/new/', comment_create, name='comment_create'),
+    path('comments/<int:comment_id>/delete/', comment_delete, name='comment_delete'),
 ]

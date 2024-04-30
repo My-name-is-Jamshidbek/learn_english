@@ -28,3 +28,14 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.lesson_title
+
+
+class Comment(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_text = models.TextField()
+    comment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment {self.comment_id} by {self.user.username}"

@@ -2,20 +2,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Lesson, Course
-from .forms import LessonForm
+from .forms import LessonForm, CommentForm
 
 
-@login_required
 def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, lesson_id=lesson_id)
-    return render(request, 'lesson_detail.html', {'lesson': lesson})
+    comments = lesson.comments.all()
 
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.lesson = lesson
+            comment.user = request.user
+            comment.save()
+            return redirect('lesson_detail', lesson_id=lesson_id)
 
-# views.py
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import Lesson, Course
-from .forms import LessonForm
+    else:
+        form = CommentForm()
+
+    return render(request, 'staff/lessons/lesson_detail.html', {'lesson': lesson, 'comments': comments, 'form': form})
 
 
 @login_required

@@ -1,0 +1,66 @@
+{% extends 'guest/base.html' %}
+
+{% block title %}
+Lesson: {{ lesson.lesson_title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ lesson.lesson_title }}</h2>
+    <p><strong>Score:</strong> {{ lesson.score }}</p>
+    <p>{{ lesson.content }}</p>
+
+    <h3>Comments</h3>
+
+    <!-- Comment creation form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Add a New Comment</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="comment_text" class="form-label">Your Comment</label>
+                    <textarea class="form-control" id="comment_text" name="comment_text">{{ form.comment_text.value }}</textarea>
+                    {% if form.comment_text.errors %}
+                        <div class="alert alert-danger mt-1">{{ form.comment_text.errors }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                    <tr>
+                        <td>{{ comment.user.username }}</td>
+                        <td>{{ comment.comment_text }}</td>
+                        <td>{{ comment.comment_date }}</td>
+                        <td>
+                            {% if comment.user_id == request.user.id or request.user.is_staff%}
+                                <a href="{% url 'comment_delete' comment.comment_id %}" class="btn btn-danger btn-sm">Delete</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No comments yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{% url 'lesson_list' lesson.course_id %}" class="btn btn-secondary">Back to Lessons</a>
+</div>
+{% endblock %}
