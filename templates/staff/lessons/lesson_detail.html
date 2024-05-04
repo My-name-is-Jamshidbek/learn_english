@@ -8,27 +8,29 @@ Lesson: {{ lesson.lesson_title }}
 <div class="container mt-5">
     <h2>{{ lesson.lesson_title }}</h2>
     <p><strong>Score:</strong> {{ lesson.score }}</p>
-    <p>{{ lesson.content }}</p>
+    {{ lesson.content|safe }}
 
     <h3>Comments</h3>
 
-    <!-- Comment creation form -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5>Add a New Comment</h5>
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="comment_text" class="form-label">Your Comment</label>
-                    <textarea class="form-control" id="comment_text" name="comment_text">{{ form.comment_text.value }}</textarea>
-                    {% if form.comment_text.errors %}
-                        <div class="alert alert-danger mt-1">{{ form.comment_text.errors }}</div>
-                    {% endif %}
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+    {% if user.is_authenticated %}
+        <!-- Comment creation form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Add a New Comment</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="comment_text" class="form-label">Your Comment</label>
+                        <textarea class="form-control" id="comment_text" name="comment_text">{{ form.comment_text.value }}</textarea>
+                        {% if form.comment_text.errors %}
+                            <div class="alert alert-danger mt-1">{{ form.comment_text.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
-    </div>
+    {% endif %} 
 
     <div class="table-responsive">
         <table class="table table-striped">

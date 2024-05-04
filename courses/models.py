@@ -1,5 +1,6 @@
 # models.py
 from django.db import models
+from ckeditor.fields import RichTextField
 from accounts.models import User  # Import the correct model
 
 
@@ -23,7 +24,7 @@ class Lesson(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lessons')  # Direct reference
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
     lesson_title = models.CharField(max_length=255)
-    content = models.TextField(blank=True, null=True)
+    content = RichTextField()  # Using CKEditor RichTextField
     score = models.BigIntegerField(blank=True, null=True)
 
     def __str__(self):

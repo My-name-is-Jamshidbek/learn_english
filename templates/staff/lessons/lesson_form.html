@@ -9,7 +9,7 @@
     <h2>{% if form.instance.pk %}Edit Lesson{% else %}New Lesson{% endif %}</h2>
     <form method="post">
         {% csrf_token %}
-        
+
 {% comment %}
         <div class="mb-3">
             <label for="course" class="form-label">Course</label>
@@ -36,7 +36,8 @@
 
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>
-            <textarea class="form-control" id="content" name="content">{{ form.content.value }}</textarea>
+{#            <textarea class="form-control" id="content" name="content">{{ form.content.value }}</textarea>#}
+            {{ form.content }}
             {% if form.content.errors %}
                 <div class="alert alert-danger mt-1">{{ form.content.errors }}</div>
             {% endif %}

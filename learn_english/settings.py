@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
     "accounts.apps.AccountsConfig",
-    "courses.apps.CoursesConfig"
+    "courses.apps.CoursesConfig",
+
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +140,11 @@ LOGIN_REDIRECT_URL = 'staff_home'
 LOGOUT_REDIRECT_URL = 'staff_home'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+        'height': 300,
+        'width': '100%',
+    },
+}

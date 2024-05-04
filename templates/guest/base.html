@@ -11,7 +11,13 @@
     <meta name="author" content="">
 
     <title>{% block title %}
+        {% if user.is_authenticated and user.is_staff %}
     	Staff dashboard
+        {% elif user.is_authenticated %}
+    	English courses
+        {% else %}
+        Login
+        {% endif %}
     {% endblock %}</title>
 
     <!-- Custom fonts for this template-->
@@ -54,11 +60,6 @@
             <!-- Nav Item - Dashboard -->
             {% if user.is_authenticated and user.is_staff %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'staff_home' %}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'course_list' %}" data-toggle="collapse" data-target="#collapseUtilities"
                         aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-fw fa-chalkboard-teacher"></i>
@@ -82,7 +83,25 @@
                     </div>
                 </li>
             {% else %}
-            {% endif %}
+                {% for course in courses %}
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'course_list' %}" data-toggle="collapse" data-target="#collapseUtilities{{ course.pk }}"
+                        aria-expanded="true" aria-controls="collapseUtilities{{ course.pk }}">
+                        <i class="fas fa-fw fa-chalkboard-teacher"></i>
+                        <span>{{ course.name }}</span>
+                    </a>
+                    <div id="collapseUtilities{{ course.pk }}" class="collapse" aria-labelledby="headingUtilities"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Lessons</h6>
+                            {% for lesson in course.lessons.all %}
+                                <a class="collapse-item" href="{% url 'lesson_detail' lesson.pk %}">{{ lesson }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        {% endif %}
         </ul>
         <!-- End of Sidebar -->
 
