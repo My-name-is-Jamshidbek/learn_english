@@ -42,16 +42,16 @@ def create_user_profile(sender, instance, created, **kwargs):
                 user=instance,
                 first_name=instance.first_name or '',
                 last_name=instance.last_name or '',
-                date_of_birth=instance.date_of_birth or None,  # Handle missing dates gracefully
-                country=instance.country or '',
+                # date_of_birth=instance.date_of_birth or None,  # Handle missing dates gracefully
+                # country=instance.country or '',
             )
         else:
             UserProfile.objects.create(
                 user=instance,
                 first_name=instance.first_name or '',
                 last_name=instance.last_name or '',
-                date_of_birth=instance.date_of_birth or None,  # Handle missing dates gracefully
-                country=instance.country or '',
+                # date_of_birth=instance.date_of_birth or None,  # Handle missing dates gracefully
+                # country=instance.country or '',
             )
 
 

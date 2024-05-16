@@ -13,7 +13,7 @@ class Course(models.Model):
     score = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"Course {self.course_id} - Level {self.level}"
+        return f"Course {self.name} - Level {self.course_id}"
 
     class Meta:
         ordering = ['course_id']
